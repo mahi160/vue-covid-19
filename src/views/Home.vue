@@ -51,8 +51,7 @@ export default {
           title: "Confirmed",
           numberToday: 0,
           numberTotal: 0,
-          img:
-            "https://static.boredpanda.com/blog/wp-content/uploads/2017/02/IMG_20170205_220039_508-58a0129a23ada__880.jpg",
+          img: require("../assets/bear.jpg"),
           color: "#e58e26",
           change: 2,
         },
@@ -61,8 +60,7 @@ export default {
           title: "Recovered",
           numberToday: 0,
           numberTotal: 0,
-          img:
-            "https://static.boredpanda.com/blog/wp-content/uploads/2017/02/IMG_20170114_222025_931-58a01296a1b60__880.jpg",
+          img: require("../assets/horse.jpg"),
           color: "#079992",
         },
         {
@@ -70,8 +68,7 @@ export default {
           title: "Deaths",
           numberToday: 0,
           numberTotal: 0,
-          img:
-            "https://static.boredpanda.com/blog/wp-content/uploads/2017/02/I-discovered-digital-art-and-revived-the-artist-in-me-58a183b51a979__880.jpg",
+          img: require("../assets/wolf.jpg"),
           color: "#b71540",
         },
       ],
