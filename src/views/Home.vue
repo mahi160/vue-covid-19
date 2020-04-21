@@ -2,20 +2,21 @@
   <div class="home">
     <div></div>
     <b-container>
-      <autocomplete
-        :search="search"
-        placeholder="Search for a country"
-        aria-label="Search for a country"
-        @submit="submit"
-      ></autocomplete>
-      <b-row class="justify-content-center mt-4">
-        <b-icon-arrow-repeat
-          @click="getCountryData('Bangladesh')"
-        ></b-icon-arrow-repeat>
+      <b-row>
+        <b-col justify-content-center>
+          <autocomplete
+            :search="search"
+            placeholder="Search for a country"
+            aria-label="Search for a country"
+            @submit="submit"
+          ></autocomplete>
+        </b-col>
+      </b-row>
+      <b-row class="justify-content-center mt-4 mb-2" v-show="selectedCountry">
         <h1>{{ selectedCountry | capitalize }}</h1>
         <img :src="flagUrl" alt="flag" class="flag" />
       </b-row>
-      <b-row class="justify-content-center">
+      <b-row class="justify-content-center" v-show="selectedCountry">
         <view-card
           v-for="x in cases"
           :key="x.id"
@@ -74,7 +75,7 @@ export default {
           color: "#b71540",
         },
       ],
-      selectedCountry: "Choose Your Country",
+      selectedCountry: "",
       flagUrl: "",
     };
   },
@@ -88,7 +89,7 @@ export default {
         })
         .indexOf(this.selectedCountry);
 
-      this.flagUrl = `https://www.countryflags.io/${this.countries[i].ISO2}/flat/64.png`;
+      this.flagUrl = `https://www.countryflags.io/${this.countries[i].ISO2}/shiny/64.png`;
       const urlTotal = `https://api.covid19api.com/total/country/${this.countries[i].Slug}`;
       fetch(urlTotal)
         .then((res) => {

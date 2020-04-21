@@ -4,6 +4,7 @@
       <div style="width:204px"></div>
       <div>
         <router-link to="/">Home</router-link> |
+        <router-link to="/world">World</router-link> |
         <router-link to="/about">About</router-link> |
         <a>
           <b-icon-geo-alt @click="getCC()"></b-icon-geo-alt>

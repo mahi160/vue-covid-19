@@ -3,7 +3,7 @@ export default {
   name: "Country",
   data() {
     return {
-      countries: [{}],
+      countries: [{}]
     };
   },
   methods: {
@@ -23,16 +23,16 @@ export default {
           return a[property].localeCompare(b[property]);
         }
       };
-    },
+    }
   },
   created() {
     fetch("https://api.covid19api.com/countries")
-      .then((res) => {
+      .then(res => {
         return res.json();
       })
-      .then((data) => {
+      .then(data => {
         this.countries = data.sort(this.dynamicSort("Country"));
       });
-  },
+  }
 };
 </script>
