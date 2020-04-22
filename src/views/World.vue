@@ -24,14 +24,12 @@
 
 <script>
 import ViewCard from "@/components/ViewCard";
-import Country from "@/mixins/Country";
 
 export default {
   name: "Home",
   components: {
-    ViewCard,
+    ViewCard
   },
-  mixins: [Country],
   data() {
     return {
       cases: [
@@ -43,7 +41,7 @@ export default {
           numberTotal: 0,
           img: require("../assets/bear.jpg"),
           color: "#e58e26",
-          change: 2,
+          change: 2
         },
         {
           id: 2,
@@ -51,7 +49,7 @@ export default {
           numberToday: 0,
           numberTotal: 0,
           img: require("../assets/horse.jpg"),
-          color: "#079992",
+          color: "#079992"
         },
         {
           id: 3,
@@ -59,21 +57,19 @@ export default {
           numberToday: 0,
           numberTotal: 0,
           img: require("../assets/wolf.jpg"),
-          color: "#b71540",
-        },
-      ],
-      selectedCountry: "Choose Your Country",
-      flagUrl: "",
+          color: "#b71540"
+        }
+      ]
     };
   },
 
   created() {
     const urlTotal = `https://api.covid19api.com/summary`;
     fetch(urlTotal)
-      .then((res) => {
+      .then(res => {
         return res.json();
       })
-      .then((dataCon) => {
+      .then(dataCon => {
         const x = dataCon.Global;
         this.cases[0].numberTotal = x.TotalConfirmed;
         this.cases[0].numberToday = x.NewConfirmed;
@@ -82,7 +78,7 @@ export default {
         this.cases[2].numberTotal = x.TotalDeaths;
         this.cases[2].numberToday = x.NewDeaths;
       });
-  },
+  }
 };
 </script>
 

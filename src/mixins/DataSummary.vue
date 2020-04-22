@@ -1,9 +1,11 @@
 <script>
 export default {
-  name: "Country",
+  name: "DataSummary",
   data() {
     return {
-      countries: [{}]
+      countriesData: [{}],
+      globalData: {},
+      dateData: ""
     };
   },
   methods: {
@@ -26,13 +28,14 @@ export default {
     }
   },
   created() {
-    fetch("https://api.covid19api.com/countries")
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        this.countries = data.sort(this.dynamicSort("Country"));
-      });
+    const request = async () => {
+      const res = await fetch("https://api.covid19api.com/summary");
+      const data = await res.json();
+      this.globalData = data.Global;
+      this.countriesData = data.Countries.sort(this.dynamicSort("Country"));
+      this.dateData = data.Date;
+    };
+    request();
   }
 };
 </script>

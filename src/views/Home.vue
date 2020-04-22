@@ -34,14 +34,14 @@
 
 <script>
 import ViewCard from "@/components/ViewCard";
-import Country from "@/mixins/Country";
+import DataSummary from "@/mixins/DataSummary";
 
 export default {
   name: "Home",
   components: {
-    ViewCard,
+    ViewCard
   },
-  mixins: [Country],
+  mixins: [DataSummary],
   data() {
     return {
       cases: [
@@ -53,7 +53,7 @@ export default {
           numberTotal: 0,
           img: require("../assets/bear.jpg"),
           color: "#e58e26",
-          change: 2,
+          change: 2
         },
         {
           id: 2,
@@ -61,7 +61,7 @@ export default {
           numberToday: 0,
           numberTotal: 0,
           img: require("../assets/horse.jpg"),
-          color: "#079992",
+          color: "#079992"
         },
         {
           id: 3,
@@ -69,30 +69,30 @@ export default {
           numberToday: 0,
           numberTotal: 0,
           img: require("../assets/wolf.jpg"),
-          color: "#b71540",
-        },
+          color: "#b71540"
+        }
       ],
       selectedCountry: "",
-      flagUrl: "",
+      flagUrl: ""
     };
   },
 
   methods: {
     getCountryData(x) {
       this.selectedCountry = x;
-      const i = this.countries
-        .map((e) => {
+      const i = this.countriesData
+        .map(e => {
           return e.Country;
         })
         .indexOf(this.selectedCountry);
 
-      this.flagUrl = `https://www.countryflags.io/${this.countries[i].ISO2}/shiny/64.png`;
-      const urlTotal = `https://api.covid19api.com/total/country/${this.countries[i].Slug}`;
+      this.flagUrl = `https://www.countryflags.io/${this.countriesData[i].CountryCode}/shiny/64.png`;
+      const urlTotal = `https://api.covid19api.com/total/country/${this.countriesData[i].Slug}`;
       fetch(urlTotal)
-        .then((res) => {
+        .then(res => {
           return res.json();
         })
-        .then((dataCon) => {
+        .then(dataCon => {
           const x = dataCon.length - 1;
           this.cases[0].numberTotal = dataCon[x].Confirmed;
           this.cases[0].numberToday =
@@ -108,14 +108,14 @@ export default {
     // searching in search box
     search(input) {
       const country = [];
-      for (let i = 0; i < this.countries.length; i++) {
-        country.push(this.countries[i].Country);
+      for (let i = 0; i < this.countriesData.length; i++) {
+        country.push(this.countriesData[i].Country);
       }
 
       if (input.length < 1) {
         return [];
       }
-      return country.filter((country) => {
+      return country.filter(country => {
         return country.toLowerCase().startsWith(input.toLowerCase());
       });
     },
@@ -123,7 +123,7 @@ export default {
     // submitting country from search
     submit(x) {
       this.getCountryData(x);
-    },
+    }
   },
 
   filters: {
@@ -131,8 +131,8 @@ export default {
       if (!value) return "";
       value = value.toString();
       return value.charAt(0).toUpperCase() + value.slice(1);
-    },
-  },
+    }
+  }
 };
 </script>
 

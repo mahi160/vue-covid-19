@@ -19,25 +19,25 @@
 </template>
 
 <script>
-import Country from "@/mixins/Country";
+import DataSummary from "@/mixins/DataSummary";
 export default {
-  mixins: [Country],
+  mixins: [DataSummary],
   data() {
     return {
       homeLand: "Bangladesh",
-      countryCode: "",
+      countryCode: ""
     };
   },
   methods: {
     getCC() {
-      const i = this.countries
-        .map((e) => {
+      const i = this.countriesData
+        .map(e => {
           return e.Country;
         })
         .indexOf(this.homeLand);
-      this.countryCode = this.countries[i].ISO2;
-    },
-  },
+      this.countryCode = this.countriesData[i].CountryCode;
+    }
+  }
 };
 </script>
 
