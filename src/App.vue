@@ -14,7 +14,9 @@
       <div style="width:204px"></div>
     </div>
     <div id="nav-logo">Covid-19</div>
-    <router-view />
+    <vue-page-transition :name="transitionName">
+      <router-view />
+    </vue-page-transition>
   </div>
 </template>
 
@@ -25,24 +27,41 @@ export default {
   data() {
     return {
       homeLand: "Bangladesh",
-      countryCode: ""
+      countryCode: "",
+      transitionName: "fade-in-up",
     };
   },
+
   methods: {
     getCC() {
       const i = this.countriesData
-        .map(e => {
+        .map((e) => {
           return e.Country;
         })
         .indexOf(this.homeLand);
       this.countryCode = this.countriesData[i].CountryCode;
-    }
-  }
+    },
+  },
+  /* watch: {
+    $route(to, from) {
+      console.log(to, from);
+
+      if (
+        (from.name == "Home" && to.name == "World") ||
+        (from.name == "World" && to.name == "About")
+      ) {
+        this.transitionName = "fade-in-down";
+      } else {
+        this.transitionName = "fade-in-right";
+      }
+    },
+  },*/
 };
 </script>
 
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css?family=Lemonada|Poppins&display=swap");
+
 * {
   box-sizing: border-box;
   padding: 0;
