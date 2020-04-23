@@ -9,9 +9,9 @@ import store from "./store";
 import Autocomplete from "@trevoreyre/autocomplete-vue";
 import "./assets/css/autocomplete.css";
 import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
-import VuePageTransition from 'vue-page-transition'
+import VuePageTransition from "vue-page-transition";
 
-Vue.use(VuePageTransition)
+Vue.use(VuePageTransition);
 Vue.use(Autocomplete);
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);

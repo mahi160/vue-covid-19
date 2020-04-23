@@ -5,7 +5,8 @@ export default {
     return {
       countriesData: [{}],
       globalData: {},
-      dateData: ""
+      dateData: "",
+      homeLand: ""
     };
   },
   methods: {

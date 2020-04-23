@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <login-page @submit="submit" :homeLand=homeLand v-show="showLogin"></login-page>
     <div id="nav">
       <div style="width:204px"></div>
       <div>
@@ -14,6 +15,7 @@
       <div style="width:204px"></div>
     </div>
     <div id="nav-logo">Covid-19</div>
+    
     <vue-page-transition :name="transitionName">
       <router-view />
     </vue-page-transition>
@@ -22,26 +24,36 @@
 
 <script>
 import DataSummary from "@/mixins/DataSummary";
+import LoginPage from "@/components/LoginPage"
 export default {
   mixins: [DataSummary],
+  components: {
+    LoginPage
+  },
   data() {
     return {
-      homeLand: "Bangladesh",
+      showLogin: true,
+      homeLand: "",
       countryCode: "",
-      transitionName: "fade-in-up",
+      transitionName: "fade-in-up"
     };
   },
 
   methods: {
     getCC() {
       const i = this.countriesData
-        .map((e) => {
+        .map(e => {
           return e.Country;
         })
         .indexOf(this.homeLand);
       this.countryCode = this.countriesData[i].CountryCode;
+      this.showLogin = false
     },
-  },
+    submit() {
+      this.getCC()
+    },
+    
+  }
   /* watch: {
     $route(to, from) {
       console.log(to, from);
