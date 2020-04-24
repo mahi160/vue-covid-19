@@ -48,7 +48,7 @@ export default {
       this.$emit("get-cc");
       localStorage.setItem("showLogin", true);
       localStorage.setItem("showRoutes", true);
-      localStorage.setItem("showRoutes", true);
+      localStorage.setItem("showCards", true);
     },
     search(input) {
       const country = [];

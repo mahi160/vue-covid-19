@@ -1,5 +1,10 @@
 <template>
   <div id="app">
+    <div id="title-bar">
+      <div id="title-bar-btns">
+        <b-icon-x id="close-btn" @click="closeW()"></b-icon-x>
+      </div>
+    </div>
     <login-page @get-cc="getHome()" v-if="!noLogin"></login-page>
     <div id="nav">
       <div style="width:204px"></div>
@@ -11,10 +16,9 @@
         <router-link to="/world"
           ><span @click="show()">World</span></router-link
         >
-        |
-        <router-link to="/about"
+        <!--| <router-link to="/about"
           ><span @click="show()">About</span></router-link
-        >
+        >-->
         |
         <router-link to="/">
           <span @click="getHome()">
@@ -32,7 +36,7 @@
     <!--HOMELAND-->
     <vue-page-transition name="fade-in-up" v-if="showCards">
       <b-container>
-        <b-row class="justify-content-center mt-4 mb-2">
+        <b-row class="justify-content-center mt-1 mb-2">
           <h1>{{ homeLand | capitalize }}</h1>
           <img :src="flagUrl" alt="flag" class="flag" />
         </b-row>
@@ -62,12 +66,14 @@ import DataSummary from "@/mixins/DataSummary";
 import LoginPage from "@/components/LoginPage";
 import ViewCard from "@/components/ViewCard";
 
+import { remote } from "electron";
+
 export default {
   name: "App",
   mixins: [DataSummary],
   components: {
     ViewCard,
-    LoginPage
+    LoginPage,
   },
   data() {
     return {
@@ -86,7 +92,7 @@ export default {
           numberTotal: localStorage.getItem("numberTotalC"),
           img: require("./assets/bear.jpg"),
           color: "#e58e26",
-          change: 2
+          change: 2,
         },
         {
           id: 2,
@@ -94,7 +100,7 @@ export default {
           numberToday: localStorage.getItem("numberTodayR"),
           numberTotal: localStorage.getItem("numberTotalR"),
           img: require("./assets/horse.jpg"),
-          color: "#079992"
+          color: "#079992",
         },
         {
           id: 3,
@@ -102,10 +108,10 @@ export default {
           numberToday: localStorage.getItem("numberTodayD"),
           numberTotal: localStorage.getItem("numberTotalD"),
           img: require("./assets/wolf.jpg"),
-          color: "#b71540"
-        }
+          color: "#b71540",
+        },
       ],
-      flagUrl: localStorage.getItem("flag")
+      flagUrl: localStorage.getItem("flag"),
     };
   },
 
@@ -114,7 +120,7 @@ export default {
       const x = localStorage.getItem("home");
       this.homeLand = x;
       const i = this.countriesData
-        .map(e => {
+        .map((e) => {
           return e.Country;
         })
         .indexOf(x);
@@ -126,10 +132,10 @@ export default {
       localStorage.setItem("flag", this.flagUrl);
       const urlTotal = `https://api.covid19api.com/total/country/${this.countriesData[i].Slug}`;
       fetch(urlTotal)
-        .then(res => {
+        .then((res) => {
           return res.json();
         })
-        .then(dataCon => {
+        .then((dataCon) => {
           const x = dataCon.length - 1;
           this.cases[0].numberTotal = dataCon[x].Confirmed;
           localStorage.setItem("numberTotalC", this.cases[0].numberTotal);
@@ -158,15 +164,19 @@ export default {
     show() {
       this.showCards = false;
       this.showRoutes = true;
-    }
+    },
+    closeW() {
+      const win = remote.getCurrentWindow();
+      win.close();
+    },
   },
   filters: {
     capitalize: function(value) {
       if (!value) return "";
       value = value.toString();
       return value.charAt(0).toUpperCase() + value.slice(1);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -240,6 +250,8 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 30px;
+  position: relative;
+  top: -32px;
 
   a {
     font-weight: bold;
@@ -264,5 +276,20 @@ export default {
   width: 22px;
   height: 22px;
   border-radius: 45%;
+}
+
+#title-bar {
+  -webkit-app-region: drag;
+  height: 40px;
+}
+
+#title-bar-btns {
+  -webkit-app-region: no-drag;
+  position: fixed;
+  top: 5px;
+  right: 10px;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 999;
 }
 </style>
