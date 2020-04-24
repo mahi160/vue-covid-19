@@ -6,7 +6,8 @@
       </p>
     </blockquote>
     <b class="quote"
-      >-- <i>{{ quote[0].auth }}</i> &nbsp; (<small class="ml-1"
+      >-- <i>{{ quote[0].auth }}</i> &nbsp; (<small
+        class="ml-1"
         style="z-index:50;font-size:0.9em; font-weight: normal;"
       >
         <img
@@ -32,22 +33,22 @@ export default {
   name: "quote-section",
   data() {
     return {
-      quote: [],
+      quote: []
     };
   },
   created() {
     //Run when the page is creaed.
     fetch("http://quotes.rest/qod.json")
-      .then((res) => {
+      .then(res => {
         return res.json();
       })
-      .then((data) => {
+      .then(data => {
         this.quote.push({
           name: data.contents.quotes[0].quote,
-          auth: data.contents.quotes[0].author,
+          auth: data.contents.quotes[0].author
         });
       });
-  },
+  }
 };
 </script>
 

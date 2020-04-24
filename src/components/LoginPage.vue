@@ -37,15 +37,18 @@ import QuoteSection from "./QuoteSection";
 export default {
   name: "login-page",
   components: {
-    QuoteSection,
+    QuoteSection
   },
   props: {
-    homeLand: String,
+    homeLand: String
   },
   mixins: [DataSummary],
   methods: {
     getCC() {
       this.$emit("get-cc");
+      localStorage.setItem("showLogin", true);
+      localStorage.setItem("showRoutes", true);
+      localStorage.setItem("showRoutes", true);
     },
     search(input) {
       const country = [];
@@ -56,15 +59,14 @@ export default {
       if (input.length < 1) {
         return [];
       }
-      return country.filter((country) => {
+      return country.filter(country => {
         return country.toLowerCase().startsWith(input.toLowerCase());
       });
     },
     submit(x) {
-      this.homeLand = x;
-      this.$emit('submit', this.homeLand)
-    },
-  },
+      localStorage.setItem("home", x);
+    }
+  }
 };
 </script>
 

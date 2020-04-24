@@ -1,22 +1,57 @@
 <template>
   <div id="app">
-    <login-page @submit="submit" :homeLand=homeLand v-show="showLogin"></login-page>
+    <login-page @get-cc="getHome()" v-if="!noLogin"></login-page>
     <div id="nav">
       <div style="width:204px"></div>
       <div>
-        <router-link to="/">Home</router-link> |
-        <router-link to="/world">World</router-link> |
-        <router-link to="/about">About</router-link> |
-        <a>
-          <b-icon-geo-alt @click="getCC()"></b-icon-geo-alt>
-          {{ countryCode }}</a
+        <router-link to="/countries"
+          ><span @click="show()">Countries</span></router-link
         >
+        |
+        <router-link to="/world"
+          ><span @click="show()">World</span></router-link
+        >
+        |
+        <router-link to="/about"
+          ><span @click="show()">About</span></router-link
+        >
+        |
+        <router-link to="/">
+          <span @click="getHome()">
+            <b-icon-geo-alt></b-icon-geo-alt> {{ countryCode }}</span
+          >
+        </router-link>
       </div>
-      <div style="width:204px"></div>
+      <div style="width:204px" v-if="!noLogin"></div>
+      <div style="width:204px" v-if="noLogin">
+        <small>Last update: {{ dateData | timeAgo }}</small>
+      </div>
     </div>
     <div id="nav-logo">Covid-19</div>
-    
-    <vue-page-transition :name="transitionName">
+
+    <!--HOMELAND-->
+    <vue-page-transition name="fade-in-up" v-if="showCards">
+      <b-container>
+        <b-row class="justify-content-center mt-4 mb-2">
+          <h1>{{ homeLand | capitalize }}</h1>
+          <img :src="flagUrl" alt="flag" class="flag" />
+        </b-row>
+        <b-row class="justify-content-center">
+          <view-card
+            v-for="x in cases"
+            :key="x.id"
+            :imgUrl="x.img"
+            :title="x.title"
+            :numberToday="x.numberToday"
+            :numberTotal="x.numberTotal"
+            :headingColor="x.color"
+            :change="x.change"
+          ></view-card>
+        </b-row>
+      </b-container>
+    </vue-page-transition>
+
+    <vue-page-transition :name="transitionName" v-if="showRoutes">
       <router-view />
     </vue-page-transition>
   </div>
@@ -24,50 +59,114 @@
 
 <script>
 import DataSummary from "@/mixins/DataSummary";
-import LoginPage from "@/components/LoginPage"
+import LoginPage from "@/components/LoginPage";
+import ViewCard from "@/components/ViewCard";
+
 export default {
+  name: "App",
   mixins: [DataSummary],
   components: {
+    ViewCard,
     LoginPage
   },
   data() {
     return {
-      showLogin: true,
-      homeLand: "",
-      countryCode: "",
-      transitionName: "fade-in-up"
+      noLogin: localStorage.getItem("showLogin"),
+      showRoutes: localStorage.getItem("showLogin"),
+      showCards: localStorage.getItem("showCards"),
+      homeLand: localStorage.getItem("home"),
+      countryCode: localStorage.getItem("cc"),
+      transitionName: "fade-in-up",
+      cases: [
+        // IMAGE: https://www.boredpanda.com/i-discovered-digital-art-and-revived-the-artist-in-me/?utm_source=duckduckgo&utm_medium=referral&utm_campaign=organic
+        {
+          id: 1,
+          title: "Confirmed",
+          numberToday: localStorage.getItem("numberTodayC"),
+          numberTotal: localStorage.getItem("numberTotalC"),
+          img: require("./assets/bear.jpg"),
+          color: "#e58e26",
+          change: 2
+        },
+        {
+          id: 2,
+          title: "Recovered",
+          numberToday: localStorage.getItem("numberTodayR"),
+          numberTotal: localStorage.getItem("numberTotalR"),
+          img: require("./assets/horse.jpg"),
+          color: "#079992"
+        },
+        {
+          id: 3,
+          title: "Deaths",
+          numberToday: localStorage.getItem("numberTodayD"),
+          numberTotal: localStorage.getItem("numberTotalD"),
+          img: require("./assets/wolf.jpg"),
+          color: "#b71540"
+        }
+      ],
+      flagUrl: localStorage.getItem("flag")
     };
   },
 
   methods: {
-    getCC() {
+    getHome() {
+      const x = localStorage.getItem("home");
+      this.homeLand = x;
       const i = this.countriesData
         .map(e => {
           return e.Country;
         })
-        .indexOf(this.homeLand);
-      this.countryCode = this.countriesData[i].CountryCode;
-      this.showLogin = false
-    },
-    submit() {
-      this.getCC()
-    },
-    
-  }
-  /* watch: {
-    $route(to, from) {
-      console.log(to, from);
+        .indexOf(x);
 
-      if (
-        (from.name == "Home" && to.name == "World") ||
-        (from.name == "World" && to.name == "About")
-      ) {
-        this.transitionName = "fade-in-down";
-      } else {
-        this.transitionName = "fade-in-right";
-      }
+      this.countryCode = this.countriesData[i].CountryCode;
+      localStorage.setItem("cc", this.countriesData[i].CountryCode);
+
+      this.flagUrl = `https://www.countryflags.io/${this.countriesData[i].CountryCode}/shiny/64.png`;
+      localStorage.setItem("flag", this.flagUrl);
+      const urlTotal = `https://api.covid19api.com/total/country/${this.countriesData[i].Slug}`;
+      fetch(urlTotal)
+        .then(res => {
+          return res.json();
+        })
+        .then(dataCon => {
+          const x = dataCon.length - 1;
+          this.cases[0].numberTotal = dataCon[x].Confirmed;
+          localStorage.setItem("numberTotalC", this.cases[0].numberTotal);
+
+          this.cases[0].numberToday =
+            dataCon[x].Confirmed - dataCon[x - 1].Confirmed;
+          localStorage.setItem("numberTodayC", this.cases[0].numberToday);
+
+          this.cases[1].numberTotal = dataCon[x].Recovered;
+          localStorage.setItem("numberTotalR", this.cases[1].numberTotal);
+
+          this.cases[1].numberToday =
+            dataCon[x].Recovered - dataCon[x - 1].Recovered;
+          localStorage.setItem("numberTodayR", this.cases[1].numberToday);
+
+          this.cases[2].numberTotal = dataCon[x].Deaths;
+          localStorage.setItem("numberTotalD", this.cases[2].numberTotal);
+
+          this.cases[2].numberToday = dataCon[x].Deaths - dataCon[x - 1].Deaths;
+          localStorage.setItem("numberTodayD", this.cases[2].numberToday);
+        });
+      this.noLogin = true;
+      this.showRoutes = false;
+      this.showCards = true;
     },
-  },*/
+    show() {
+      this.showCards = false;
+      this.showRoutes = true;
+    }
+  },
+  filters: {
+    capitalize: function(value) {
+      if (!value) return "";
+      value = value.toString();
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    }
+  }
 };
 </script>
 
@@ -159,5 +258,11 @@ export default {
       text-decoration: underline;
     }
   }
+}
+
+.flag {
+  width: 22px;
+  height: 22px;
+  border-radius: 45%;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="countries">
     <div></div>
     <b-container>
       <b-row>
@@ -37,7 +37,7 @@ import ViewCard from "@/components/ViewCard";
 import DataSummary from "@/mixins/DataSummary";
 
 export default {
-  name: "Home",
+  name: "Countries",
   components: {
     ViewCard
   },
