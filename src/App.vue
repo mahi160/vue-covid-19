@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="title-bar">
+    <div id="title-bar" class="sticky-top">
       <div id="title-bar-btns">
         <b-icon-x id="close-btn" @click="closeW()"></b-icon-x>
       </div>
@@ -73,7 +73,7 @@ export default {
   mixins: [DataSummary],
   components: {
     ViewCard,
-    LoginPage,
+    LoginPage
   },
   data() {
     return {
@@ -92,7 +92,7 @@ export default {
           numberTotal: localStorage.getItem("numberTotalC"),
           img: require("./assets/bear.jpg"),
           color: "#e58e26",
-          change: 2,
+          change: 2
         },
         {
           id: 2,
@@ -100,7 +100,7 @@ export default {
           numberToday: localStorage.getItem("numberTodayR"),
           numberTotal: localStorage.getItem("numberTotalR"),
           img: require("./assets/horse.jpg"),
-          color: "#079992",
+          color: "#079992"
         },
         {
           id: 3,
@@ -108,10 +108,10 @@ export default {
           numberToday: localStorage.getItem("numberTodayD"),
           numberTotal: localStorage.getItem("numberTotalD"),
           img: require("./assets/wolf.jpg"),
-          color: "#b71540",
-        },
+          color: "#b71540"
+        }
       ],
-      flagUrl: localStorage.getItem("flag"),
+      flagUrl: localStorage.getItem("flag")
     };
   },
 
@@ -120,7 +120,7 @@ export default {
       const x = localStorage.getItem("home");
       this.homeLand = x;
       const i = this.countriesData
-        .map((e) => {
+        .map(e => {
           return e.Country;
         })
         .indexOf(x);
@@ -132,10 +132,10 @@ export default {
       localStorage.setItem("flag", this.flagUrl);
       const urlTotal = `https://api.covid19api.com/total/country/${this.countriesData[i].Slug}`;
       fetch(urlTotal)
-        .then((res) => {
+        .then(res => {
           return res.json();
         })
-        .then((dataCon) => {
+        .then(dataCon => {
           const x = dataCon.length - 1;
           this.cases[0].numberTotal = dataCon[x].Confirmed;
           localStorage.setItem("numberTotalC", this.cases[0].numberTotal);
@@ -168,15 +168,15 @@ export default {
     closeW() {
       const win = remote.getCurrentWindow();
       win.close();
-    },
+    }
   },
   filters: {
     capitalize: function(value) {
       if (!value) return "";
       value = value.toString();
       return value.charAt(0).toUpperCase() + value.slice(1);
-    },
-  },
+    }
+  }
 };
 </script>
 

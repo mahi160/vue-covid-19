@@ -29,8 +29,8 @@ export default {
   name: "Card",
   props: {
     title: String,
-    numberTotal: Number,
-    numberToday: Number,
+    numberTotal: [String, Number],
+    numberToday: [String, Number],
     imgUrl: String,
     headingColor: String,
     change: Number

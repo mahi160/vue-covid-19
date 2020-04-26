@@ -5,18 +5,17 @@ import {
   createProtocol
   /* installVueDevtools */
 } from "vue-cli-plugin-electron-builder/lib";
-import path from 'path'
+import path from "path";
 const isDevelopment = process.env.NODE_ENV !== "production";
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
-const IMG_DIR = './assets/'
+const IMG_DIR = "./assets/";
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } }
 ]);
-
 
 function createWindow() {
   // Create the browser window.
@@ -26,11 +25,11 @@ function createWindow() {
     maxWidth: 1280,
     maxHeight: 720,
     frame: false,
-    titleBarStyle: 'hidden',
+    titleBarStyle: "hidden",
     webPreferences: {
       nodeIntegration: true
     },
-    icon: path.join(__dirname, IMG_DIR, 'logo.png')
+    icon: path.join(__dirname, IMG_DIR, "logo.png")
   });
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {

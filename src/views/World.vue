@@ -18,17 +18,20 @@
           :change="x.change"
         ></view-card>
       </b-row>
+      <list-table></list-table>
     </b-container>
   </div>
 </template>
 
 <script>
 import ViewCard from "@/components/ViewCard";
+import ListTable from "@/components/ListTable";
 
 export default {
   name: "Home",
   components: {
-    ViewCard
+    ViewCard,
+    ListTable
   },
   data() {
     return {
