@@ -1,24 +1,23 @@
 # covid-19
+A stat app for covid-19 stat
 
 ## Project setup
 ```
-npm install
+yarn install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+yarn run electron:serve
 ```
 
 ### Compiles and minifies for production
 ```
-npm run build
+yarn run electron:build
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
+## Some Screenshots
+![Your country](./src/assets/bd.png =300x) &nbsp; ![World](./src/assets/world.png =300x) &nbsp; ![List](./src/assets/list.png =300x)
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
