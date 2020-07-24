@@ -22,9 +22,9 @@ yarn run electron:build
 
 ## Some Screenshots
 
-<img src="./src/asset/bd.png" width="300"/>
-<img src="./src/asset/world.png" width="300"/>
-<img src="./src/asset/list.png" width="300"/>
+<img src="./src/assets/bd.png" width="300"/>
+<img src="./src/assets/con.png" width="300"/>
+<img src="./src/assets/list.png" width="300"/>
 
 ### Customize configuration
 
