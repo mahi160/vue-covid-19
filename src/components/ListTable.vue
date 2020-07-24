@@ -2,7 +2,7 @@
   <div class="list-table">
     <b-table
       hover
-      no-border-collapse="true"
+      no-border-collapse
       head-variant="light"
       sticky-header="700px"
       :items="countriesData"
@@ -10,7 +10,7 @@
       :tbody-tr-class="rowClass"
       sort-by="TotalConfirmed"
       sort-direction="desc"
-      sort-desc="true"
+      sort-desc
       style="width: 85%; margin: auto;"
     >
       <template v-slot:cell(pos)="data">
@@ -32,49 +32,47 @@ export default {
         { key: "pos", name: "pos", variant: "warning" },
         {
           key: "Country",
-          sortable: true,
+          sortable: true
         },
         {
           key: "TotalConfirmed",
           sortable: true,
-          variant: "primary",
+          variant: "primary"
         },
         {
           key: "NewConfirmed",
           sortable: true,
-          variant: "primary",
+          variant: "primary"
         },
         {
           key: "TotalRecovered",
           sortable: true,
-
-          variant: "success",
+          variant: "success"
         },
         {
           key: "NewRecovered",
           sortable: true,
-          variant: "success",
+          variant: "success"
         },
         {
           key: "TotalDeaths",
           sortable: true,
-          variant: "danger",
+          variant: "danger"
         },
         {
           key: "NewDeaths",
           sortable: true,
-
-          variant: "danger",
-        },
-      ],
+          variant: "danger"
+        }
+      ]
     };
   },
   methods: {
     rowClass(item, type) {
       if (!item || type !== "row") return;
       if (item.Country === localStorage.getItem("home")) return "table-warning";
-    },
-  },
+    }
+  }
 };
 </script>
 
